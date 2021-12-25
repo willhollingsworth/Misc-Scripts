@@ -1,2 +1,2 @@
 # Misc-Scripts
-A collection of Smaller scripts
+A collection of smaller scripts
