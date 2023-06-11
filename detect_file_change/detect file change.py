@@ -28,7 +28,6 @@ def get_file_details(file_path:str) -> list:
     date = os.path.getmtime(file_path)
     return [size,date]
 
-
 def check_for_changes(new_files:dict,old_files:dict) -> bool:
     '''check two dicts of files for any changes'''
     if new_files.keys() != old_files.keys():
@@ -41,7 +40,7 @@ def check_for_changes(new_files:dict,old_files:dict) -> bool:
                 return True
     return False
 
-def main_loop(target_folder:str = os.getcwd(),check_interval: float = 2,file_type:str = '') -> ...:
+def main_loop(target_folder:str = os.getcwd(), check_interval: float = 2, file_type:str = '') -> ...:
     '''keep checking a folder for any changes'''
     print(f'Detecting all changes for {target_folder}, check interval:{check_interval}')
     old_files = get_files(target_folder,file_type)
