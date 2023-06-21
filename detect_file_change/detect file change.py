@@ -2,9 +2,9 @@
 Detect if file has been created, deleted or changed within a folder
 Can be limited to a certain filetype
 '''
-
 import os
 import time
+import sys
 
 def get_files(folder:str,file_type:str) -> dict[str,list]:
     '''
@@ -40,7 +40,7 @@ def check_for_changes(new_files:dict,old_files:dict) -> bool:
                 return True
     return False
 
-def main_loop(target_folder:str = os.getcwd(), check_interval: float = 2, file_type:str = '') -> ...:
+def main_loop(target_folder:str = os.getcwd(),target_file:str = '', check_interval: float = 1, file_type:str = '') -> ...:
     '''keep checking a folder for any changes'''
     print(f'Detecting all changes for {target_folder}, check interval:{check_interval}')
     old_files = get_files(target_folder,file_type)
@@ -53,7 +53,14 @@ def main_loop(target_folder:str = os.getcwd(), check_interval: float = 2, file_t
         time.sleep(check_interval)
 
 if __name__ == '__main__':
-    main_loop(file_type='txt')
+    args = sys.argv[1:]
+    arg_len = len(args)
+    if arg_len == 0:
+        print('Enter args : target_folder target_file')
+    elif len(args) > 2:
+        print('Error : too many args')
+    else:
+        main_loop(args[0],args[1])
 
 
 
