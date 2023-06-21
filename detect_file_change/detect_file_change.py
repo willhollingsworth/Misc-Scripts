@@ -6,6 +6,7 @@ Can be limited to a certain filetype
 import os
 import time
 import sys
+import subprocess
 
 def get_files(folder:str,file_type:str) -> dict[str,list]:
     '''
@@ -48,7 +49,7 @@ def main_loop(target_folder:str = os.getcwd(),target_file:str = '', check_interv
         new_files = get_files(target_folder,file_type)
         change = check_for_changes(new_files, old_files)
         if change:
-            exec(open(target_file).read())
+            subprocess.run(['python',target_file])
         old_files = new_files
         time.sleep(check_interval)
 
