@@ -41,7 +41,7 @@ def check_for_changes(new_files:dict,old_files:dict) -> bool:
                 return True
     return False
 
-def main_loop(target_folder:str = os.getcwd(),target_file:str = '', check_interval: float = 1, file_type:str = '') -> ...:
+def main_loop(target_folder:str = os.getcwd(),target_command:str = '', check_interval: float = 1, file_type:str = '') -> ...:
     '''keep checking a folder for changes, if found run a python script'''
     print(f'Detecting all changes for {target_folder}, check interval:{check_interval}')
     old_files = get_files(target_folder,file_type)
@@ -49,7 +49,11 @@ def main_loop(target_folder:str = os.getcwd(),target_file:str = '', check_interv
         new_files = get_files(target_folder,file_type)
         change = check_for_changes(new_files, old_files)
         if change:
-            subprocess.run(['python',target_file])
+            if os.path.exists(target_command):
+                command = ['python',target_command]
+            else:
+                command = ['python',*target_command.split()]
+            subprocess.run(command)
         old_files = new_files
         time.sleep(check_interval)
 
@@ -57,7 +61,7 @@ if __name__ == '__main__':
     args = sys.argv[1:]
     arg_len = len(args)
     if arg_len == 0:
-        print('Enter args : target_folder target_file')
+        print('Enter args : target_folder target_command')
     elif len(args) > 2:
         print('Error : too many args')
     else:
